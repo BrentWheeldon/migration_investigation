@@ -1,6 +1,7 @@
 # MigrationInvestigation
 
-TODO: Write a gem description
+This gem will check to see if you need to run migrations without loading your environment.
+It assumes that you are using [auto_tagger](https://github.com/zilkey/auto_tagger) to tag the SHA that has been deployed.
 
 ## Installation
 
@@ -18,7 +19,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+The gem is very simple:
+
+	$ MigrationInvestigation.pending_migrations? "staging", "abc123"
+	
+Where _"staging"_ is the name of the tag, and _"abc123"_ is the SHA you're about to deploy. You can also pass nil for the SHA you're about to deploy and it will assume you're deloying _HEAD_.
 
 ## Contributing
 
