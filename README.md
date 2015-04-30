@@ -27,6 +27,11 @@ The gem is very simple:
 Where `staging` is the name of the tag, and `abc123` is the SHA you're about to deploy.
 You can also pass nil for the SHA you're about to deploy and it will assume you're deloying `HEAD`.
 
+If you'd also like to check additional files or directories, say seed data, you can pass in a third
+parameter:
+
+  $ MigrationInvestigation.pending_migrations? "staging", "abc123", additional_paths: ["db/seed.rb", "app/foo.txt"]
+
 ## Contributing
 
 1. Fork it
