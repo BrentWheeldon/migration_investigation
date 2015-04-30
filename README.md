@@ -22,7 +22,7 @@ Or install it yourself as:
 
 The gem is very simple:
 
-  $ MigrationInvestigation.pending_migrations? "staging", "abc123"
+    $ MigrationInvestigation.pending_migrations? "staging", "abc123"
 
 Where `staging` is the name of the tag, and `abc123` is the SHA you're about to deploy.
 You can also pass nil for the SHA you're about to deploy and it will assume you're deloying `HEAD`.
@@ -30,7 +30,7 @@ You can also pass nil for the SHA you're about to deploy and it will assume you'
 If you'd also like to check additional files or directories, say seed data, you can pass in a third
 parameter:
 
-  $ MigrationInvestigation.pending_migrations? "staging", "abc123", additional_paths: ["db/seed.rb", "app/foo.txt"]
+    $ MigrationInvestigation.pending_migrations? "staging", "abc123", additional_paths: ["db/seed.rb", "app/foo.txt"]
 
 ## Contributing
 
