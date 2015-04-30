@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe MigrationInvestigation do
   describe ".pending_migrations?" do

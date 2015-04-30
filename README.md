@@ -7,7 +7,7 @@ It assumes that you are using [auto_tagger](https://github.com/zilkey/auto_tagge
 
 Add this line to your application's Gemfile:
 
-    gem 'migration_investigation'
+    gem "migration_investigation"
 
 And then execute:
 
@@ -29,6 +29,6 @@ Where _"staging"_ is the name of the tag, and _"abc123"_ is the SHA you're about
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
+3. Commit your changes (`git commit -am "Add some feature"`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request

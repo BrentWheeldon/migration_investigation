@@ -1,6 +1,6 @@
-require 'migration_investigation'
-require 'auto_tagger'
+require "migration_investigation"
+require "auto_tagger"
 
 RSpec.configure do |config|
-  config.order = 'random'
+  config.order = "random"
 end
