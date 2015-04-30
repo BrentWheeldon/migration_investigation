@@ -19,5 +19,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency 'auto_tagger'
-  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'rspec', '> 3'
 end
