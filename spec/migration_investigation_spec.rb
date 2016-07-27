@@ -21,37 +21,78 @@ describe MigrationInvestigation do
         subject { MigrationInvestigation.pending_migrations? stage, new_sha }
 
         before do
-          allow(MigrationInvestigation).to receive(:`).with("git diff --name-only #{old_sha} #{new_sha} db/migrate/ | wc -l").and_return(git_diff)
+          allow(MigrationInvestigation).to receive(:`).with("git diff --name-only #{old_sha} #{new_sha} db/migrate/").and_return(git_diff)
         end
 
         context "when there are migrations changed between the last tag for the given change, and the new SHA" do
-          let(:git_diff) { "       3\n" }
+          let(:git_diff) do
+            <<~GITDIFF
+            db/migrate/121345_foo_migration.rb
+            db/migrate/121345_bar_migration.rb
+            db/migrate/121345_baz_migration.rb
+            GITDIFF
+          end
 
           it { is_expected.to be_truthy }
         end
 
         context "when there are no migrations changes between the last tag for the given change, and the new SHA" do
-          let(:git_diff) { "       0\n" }
+          let(:git_diff) { "\n" }
 
           it { is_expected.to be_falsy }
         end
       end
 
-      context "when additional paths are passed in" do
-        subject { MigrationInvestigation.pending_migrations? stage, new_sha, additional_paths: ["app/foo.rb"]  }
+      context "when an uptime pattern is provided" do
+        subject { MigrationInvestigation.pending_migrations? stage, new_sha, skip_filepath_pattern: /\d_online_/}
 
         before do
-          allow(MigrationInvestigation).to receive(:`).with("git diff --name-only #{old_sha} #{new_sha} db/migrate/ app/foo.rb | wc -l").and_return(git_diff)
+          allow(MigrationInvestigation).to receive(:`).with("git diff --name-only #{old_sha} #{new_sha} db/migrate/").and_return(git_diff)
+        end
+
+        context "when only online migrations exist" do
+          let(:git_diff) do
+            <<~GITDIFF
+            db/migrate/121345_online_bar_migration.rb
+            db/migrate/121345_online_baz_migration.rb
+            GITDIFF
+          end
+
+          it { is_expected.to be_falsy }
+        end
+
+        context "when there are some offline migrations" do
+          let(:git_diff) do
+            <<~GITDIFF
+            db/migrate/121345_foo_migration.rb
+            db/migrate/121345_bar_migration.rb
+            db/migrate/121345_online_baz_migration.rb
+            GITDIFF
+          end
+
+          it { is_expected.to be_truthy }
+        end
+      end
+
+      context "when additional paths are passed in" do
+        subject { MigrationInvestigation.pending_migrations? stage, new_sha, additional_paths: ["app/foo.rb"] }
+
+        before do
+          allow(MigrationInvestigation).to receive(:`).with("git diff --name-only #{old_sha} #{new_sha} db/migrate/ app/foo.rb").and_return(git_diff)
         end
 
         context "when there are changes between the last tag for the given change, and the new SHA" do
-          let(:git_diff) { "       3\n" }
+          let(:git_diff) do
+            <<~GITDIFF
+            app/foo.rb
+            GITDIFF
+          end
 
           it { is_expected.to be_truthy }
         end
 
         context "when there are no changes between the last tag for the given change, and the new SHA" do
-          let(:git_diff) { "       0\n" }
+          let(:git_diff) { "\n" }
 
           it { is_expected.to be_falsy }
         end
