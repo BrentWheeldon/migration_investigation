@@ -32,6 +32,10 @@ parameter:
 
     $ MigrationInvestigation.pending_migrations? "staging", "abc123", additional_paths: ["db/seed.rb", "app/foo.txt"]
 
+You can also add a pattern for migrations to ignore:
+
+    $ MigrationInvestigation.pending_migrations? "staging", "abc123", skip_filepath_pattern: /\d_online_/
+
 ## Contributing
 
 1. Fork it
